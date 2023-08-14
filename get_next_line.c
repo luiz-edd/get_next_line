@@ -15,6 +15,7 @@
 void	update_s_buffer(char **s_buffer, int index)
 {
 	char	*aux;
+
 	aux = *s_buffer;
 	*s_buffer = ft_strdup(s_buffer[index + 1]);
 	free(aux);
@@ -27,8 +28,7 @@ char	*find_nl(char **line, char **s_buffer, int fd)
 	char	*aux_str;
 	size_t	nl_index;
 
-	if (!*line)
-		ft_strdup("");
+	*line = ft_strdup("");
 	c_read = read(fd, *s_buffer, BUFFER_SIZE);
 	while (!ft_strchr(*s_buffer, '\n') && c_read > 0)
 	{
