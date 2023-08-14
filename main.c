@@ -9,7 +9,7 @@ int	main(void)
 
 	i = 0;
 	fd = open("text.txt", O_RDONLY);
-	while (i < 7)
+	while (i < 8)
 	{
 		printf("%s", get_next_line(fd));
 		i++;

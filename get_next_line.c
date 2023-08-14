@@ -17,7 +17,7 @@ void	update_s_buffer(char **s_buffer, int index)
 	char	*aux;
 
 	aux = *s_buffer;
-	*s_buffer = ft_strdup(s_buffer[index + 1]);
+	*s_buffer = ft_strdup((const char *)*s_buffer + (index + 1));
 	free(aux);
 }
 
@@ -37,7 +37,7 @@ char	*find_nl(char **line, char **s_buffer, int fd)
 		free(aux_line);
 		c_read = read(fd, *s_buffer, BUFFER_SIZE);
 	}
-	if (!ft_strchr(*s_buffer, '\0'))
+	if (ft_strchr(*s_buffer, '\0') != NULL && c_read > 0)
 	{
 		nl_index = ft_strlen(*s_buffer) - ft_strlen(ft_strchr(*s_buffer, '\n'));
 		aux_line = *line;
@@ -56,6 +56,7 @@ char	*find_nl(char **line, char **s_buffer, int fd)
 		free(*s_buffer);
 		return (*line);
 	}
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
