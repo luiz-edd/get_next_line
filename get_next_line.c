@@ -12,20 +12,49 @@
 
 #include "get_next_line.h"
 
-void	find_nl(char **line, char **s_buffer)
+void	update_s_buffer(char **s_buffer, int index)
+{
+	char	*aux;
+	aux = *s_buffer;
+	*s_buffer = ft_strdup(s_buffer[index + 1]);
+	free(aux);
+}
+
+char	*find_nl(char **line, char **s_buffer, int fd)
 {
 	ssize_t	c_read;
-	char *aux;
+	char	*aux_line;
+	char	*aux_str;
+	size_t	nl_index;
 
 	if (!*line)
 		ft_strdup("");
-	c_read = read(fd, s_buffer, BUFFER_SIZE);
-	while (!ft_strchr(c_read, '\n') && c_read > 0)
+	c_read = read(fd, *s_buffer, BUFFER_SIZE);
+	while (!ft_strchr(*s_buffer, '\n') && c_read > 0)
 	{
-		aux = *line;
-		*line = ft_strjoin(*line, s_buffer);
-		free(aux);
-		c_read = read(fd, s_buffer, BUFFER_SIZE);
+		aux_line = *line;
+		*line = ft_strjoin(*line, *s_buffer);
+		free(aux_line);
+		c_read = read(fd, *s_buffer, BUFFER_SIZE);
+	}
+	if (!ft_strchr(*s_buffer, '\0'))
+	{
+		nl_index = ft_strlen(*s_buffer) - ft_strlen(ft_strchr(*s_buffer, '\n'));
+		aux_line = *line;
+		aux_str = ft_substr(*s_buffer, 0, nl_index);
+		*line = ft_strjoin(*line, aux_str);
+		free(aux_line);
+		free(aux_str);
+		update_s_buffer(s_buffer, nl_index);
+		return (*line);
+	}
+	else
+	{
+		aux_line = *line;
+		*line = ft_strjoin(*line, *s_buffer);
+		free(aux_line);
+		free(*s_buffer);
+		return (*line);
 	}
 }
 
@@ -39,7 +68,7 @@ char	*get_next_line(int fd)
 	s_buffer = (char *)malloc(BUFFER_SIZE + NULL_BYTE);
 	if (s_buffer == NULL)
 		return (NULL);
-	find_nl(&line, &s_buffer);
+	return (find_nl(&line, &s_buffer, fd));
 }
 
 // "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n
@@ -52,3 +81,5 @@ char	*get_next_line(int fd)
 //  a quam id quam \n
 //  sagittis \n
 //  dignissim. Nunc ac lorem enim. Praesent tincidunt nibh vitae tortor sollicitudin sagittis. Aliquam erat volutpat. Fusce sit amet congue orci."
+
+// 01234\n67890
