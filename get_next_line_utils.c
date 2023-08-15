@@ -12,16 +12,22 @@
 
 #include "get_next_line.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup(char *s)
 {
 	size_t	len;
 	size_t	i;
 	char	*p;
 
 	len = ft_strlen(s);
-	p = (char *)malloc(len + 1);
+	p = (char *)malloc((len + 1) * sizeof(char));
 	if (p == NULL)
 		return (NULL);
+	i = 0;
+	while (i < len + 1)
+	{
+		p[i] = 0;
+		i++;
+	}
 	i = 0;
 	while (s[i])
 	{
