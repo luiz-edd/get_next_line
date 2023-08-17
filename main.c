@@ -6,12 +6,18 @@ int	main(void)
 {
 	int fd;
 	int i;
-
+	char *aux;
 	i = 0;
 	fd = open("text.txt", O_RDONLY);
-	while (i < 20)
+	while (i < 25)
 	{
-		printf("%s", get_next_line(fd));
+		aux = get_next_line(fd);
+		printf("%s", aux);
+		if (aux != NULL)
+		{
+			free(aux);
+		}
+
 		i++;
 	}
 	close(fd);

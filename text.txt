@@ -1,3 +1,9 @@
+a
+
+b
+
+cdsa
+
 Certainly! Compiling a C program involves several steps to transform the human-readable source code into machine-executable code that a computer can run. Let's break down the compilation process step by step when you run the command gcc file.c:
 
     Preprocessing:

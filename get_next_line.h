@@ -17,8 +17,8 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-# define BUFFER_SIZE 42
 # define NULL_BYTE 1
+# define NL_BYTE 1
 # define ERROR_CODE -1
 # define FD_LIMIT 1024
 
@@ -27,7 +27,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(char *s);
-char	*find_nl(char **line, char **s_buffer, int fd, ssize_t c_read);
+char	*find_nl(char **s_buffer, int fd, ssize_t c_read);
 char	*get_next_line(int fd);
 
+#endif
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
 #endif
