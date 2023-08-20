@@ -12,6 +12,13 @@
 
 #include "get_next_line.h"
 
+//steps logic
+//create malloc buffer_size > read file > add content to line 
+//create malloc buffer_size, make a static pointer to it. > read file, if \n not found
+//add the content of s_buffer to a line
+//update static buffer to have the content after \n, verify if the \n is the end of the line
+//if \n not found and bytes_read == 0, return line;
+
 char	*find_nl(char **line, char **s_buffer, int fd, ssize_t c_read)
 {
 	char	*aux_str;
@@ -51,7 +58,7 @@ char	*get_next_line(int fd)
 		if (s_buffer == NULL || line == NULL)
 			return (NULL);
 		c_read = read(fd, s_buffer, BUFFER_SIZE);
-		*(s_buffer + c_read) = '\0';
+		s_buffer[c_read] = '\0';
 	}
 	else
 		c_read = ft_strlen(s_buffer);
