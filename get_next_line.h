@@ -26,7 +26,7 @@ char	*get_next_line(int fd);
 # define FALSE 0
 
 size_t	ft_strlen(const char *s);
-char	*ft_calloc(size_t nmemb, size_t size);
+void	*ft_free_return_null(char *str);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(char *s);

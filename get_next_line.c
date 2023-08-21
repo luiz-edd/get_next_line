@@ -26,14 +26,18 @@ char	*get_next_line(int fd)
 	static char	*s_buffer;
 	static int	s_end_of_file;
 	char		*line;
+	size_t		i;
 
+	i = 0;
 	if (fd == ERROR_CODE || BUFFER_SIZE <= 0 || fd > FD_LIMIT)
 		return (NULL);
 	if (s_buffer == NULL)
 	{
-		s_buffer = (char *)ft_calloc(BUFFER_SIZE + NULL_BYTE, 1);
+		s_buffer = (char *)malloc(BUFFER_SIZE + NULL_BYTE);
 		if (s_buffer == NULL)
 			return (NULL);
+		while (i < BUFFER_SIZE + NULL_BYTE)
+			s_buffer[i++] = 0;
 	}
 	line = ft_strdup("");
 	if (line == NULL)
@@ -54,10 +58,7 @@ void	ft_read_file(char **s_buffer, char **line, int fd, int *s_end_of_file)
 		if (bytes_read == 0)
 		{
 			if (*s_end_of_file == TRUE)
-			{
-				free(*line);
-				*line = NULL;
-			}
+				ft_free_return_null(*line);
 			else
 				*s_end_of_file = TRUE;
 			return ;
@@ -85,17 +86,13 @@ void	ft_update_line(char **s_buffer, char **line, int finded_nl)
 		nl_index = ft_strlen(*s_buffer) - ft_strlen(ft_strchr(*s_buffer, '\n'));
 		aux2 = ft_substr(*s_buffer, 0, nl_index + NL_BYTE);
 		if (aux2 == NULL)
-		{
-			free(*line);
-			*line = NULL;
-			return ;
-		}
+			return (ft_free_return_null(*line));
 		*line = ft_strjoin(*line, aux2);
-		free(aux2);
+		ft_free_return_null(aux2);
 	}
 	else
 		*line = ft_strjoin(*line, *s_buffer);
-	free(aux1);
+	ft_free_return_null(aux1);
 }
 
 void	ft_update_s_buffer(char **s_buffer, char **line)
@@ -108,26 +105,22 @@ void	ft_update_s_buffer(char **s_buffer, char **line)
 	aux = ft_strdup(*s_buffer + nl_index + 1);
 	i = 0;
 	if (aux == NULL)
-	{
-		free(line);
-		*line = NULL;
-		return ;
-	}
+		return (ft_free_return_null(*line));
 	while (aux[i])
 	{
 		*(*s_buffer + i) = aux[i];
 		i++;
 	}
 	*(*s_buffer + i) = '\0';
-	free(aux);
+	ft_free_return_null(aux);
 }
 
-size_t	ft_strlen(const char *s)
+void	*ft_free_return_null(char *str)
 {
-	size_t i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if (str != NULL)
+	{
+		free(str);
+		str = NULL;
+	}
+	return (NULL);
 }
