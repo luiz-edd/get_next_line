@@ -79,6 +79,29 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
+char	*ft_calloc(size_t nmemb, size_t size)
+{
+	char	*alloc;
+	size_t	total_size;
+	size_t	i;
+
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	total_size = (nmemb * size);
+	if (total_size / nmemb != size)
+		return (NULL);
+	alloc = malloc(total_size);
+	if (alloc == NULL)
+		return (NULL);
+	i = 0;
+	while (i < total_size)
+	{
+		(alloc[i]) = 0;
+		i++;
+	}
+	return (alloc);
+}
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
@@ -101,14 +124,4 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	sub[i] = '\0';
 	return (sub);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
 }
