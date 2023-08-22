@@ -33,6 +33,8 @@ char	*get_next_line(int fd)
 	line = ft_strdup("");
 	if (line == NULL)
 		return (NULL);
+	if (ft_strlen(s_buffer))
+		ft_update_line(&s_buffer, &line);
 	ft_read_file(&s_buffer, &line, fd, &s_end_of_file);
 	return (line);
 }
@@ -41,16 +43,12 @@ void	ft_read_file(char **s_buffer, char **line, int fd, int *s_end_of_file)
 {
 	ssize_t	bytes_read;
 
-	if (*line == NULL)
-		return ;
-	if (ft_strlen(*s_buffer))
-		ft_update_line(s_buffer, line);
 	while (!ft_strchr(*s_buffer, '\n') || **s_buffer == '\0')
 	{
 		bytes_read = read(fd, *s_buffer, BUFFER_SIZE);
-		if (bytes_read == 0)
+		if (bytes_read <= 0)
 		{
-			if (*s_end_of_file == TRUE)
+			if (*s_end_of_file == TRUE || bytes_read < 0 || **line == '\0')
 			{
 				ft_free_return_null(line);
 				ft_free_return_null(s_buffer);
@@ -73,6 +71,8 @@ void	ft_update_line(char **s_buffer, char **line)
 	char	*aux2;
 	size_t	nl_index;
 
+	if (*line == NULL)
+		return ((void)ft_free_return_null(line));
 	aux1 = *line;
 	if (!ft_strchr(*s_buffer, '\n') || **s_buffer == '\0')
 		*line = ft_strjoin(*line, *s_buffer);
@@ -98,7 +98,7 @@ void	ft_update_s_buffer(char **s_buffer, char **line)
 	aux = ft_strdup(*s_buffer + nl_index + 1);
 	i = 0;
 	if (aux == NULL)
-		return (void)(ft_free_return_null(line));
+		return ((void)ft_free_return_null(line));
 	while (aux[i])
 	{
 		*(*s_buffer + i) = aux[i];

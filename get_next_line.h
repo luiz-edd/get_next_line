@@ -25,6 +25,10 @@ char	*get_next_line(int fd);
 # define TRUE 1
 # define FALSE 0
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
 size_t	ft_strlen(const char *s);
 void	*ft_free_return_null(char **str);
 char	*ft_strchr(const char *s, int c);
@@ -36,8 +40,4 @@ void	ft_update_line(char **s_bufer, char **line);
 void	ft_update_s_buffer(char **s_bufer, char **line);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 
-#endif
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
 #endif
