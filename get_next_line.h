@@ -19,6 +19,7 @@
 char	*get_next_line(int fd);
 
 # define NULL_BYTE 1
+# define NL_BYTE 1
 # define ERROR_CODE -1
 # define NL_BYTE 1
 # define FD_LIMIT 1024
@@ -40,4 +41,8 @@ void	ft_update_line(char **s_bufer, char **line);
 void	ft_update_s_buffer(char **s_bufer, char **line);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 
+#endif
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
 #endif
