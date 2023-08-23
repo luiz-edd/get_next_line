@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	*ft_free_all(char **str1, char **str2, char **str3)
 {
@@ -83,14 +83,14 @@ static void	*ft_update_line_buffer(char **line, char **s_buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*s_buffer;
+	static char	*s_buffer[FD_LIMIT];
 	char		*line;
 
 	if (fd == ERROR_CODE || BUFFER_SIZE <= 0 || fd > FD_LIMIT)
 		return (NULL);
-	line = ft_read_file(&s_buffer, fd);
-	if (line == NULL || s_buffer == NULL || *s_buffer == '\0')
-		return (ft_free_all(&s_buffer, &line, NULL));
-	ft_update_line_buffer(&line, &s_buffer);
+	line = ft_read_file(&s_buffer[fd], fd);
+	if (line == NULL || s_buffer[fd] == NULL || *s_buffer[fd] == '\0')
+		return (ft_free_all(&s_buffer[fd], &line, NULL));
+	ft_update_line_buffer(&line, &s_buffer[fd]);
 	return (line);
 }
