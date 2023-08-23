@@ -22,6 +22,10 @@ char	*get_next_line(int fd);
 # define ERROR_CODE -1
 # define FD_LIMIT 1024
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
@@ -30,10 +34,6 @@ char	*ft_strdup(char *s);
 char	*ft_read_file(char **s_buffer, int fd);
 char	*get_next_line(int fd);
 void	*ft_update_line_buffer(char **line, char **s_buffer);
-void	*ft_free_all(char *str1, char *str2, char *str3);
+void	*ft_free_all(char **str1, char **str2, char **str3);
 
-#endif
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
 #endif
