@@ -27,8 +27,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(char *s);
-char	*find_nl(char **s_buffer, int fd, ssize_t c_read);
+char	*ft_read_file(char **s_buffer, int fd);
 char	*get_next_line(int fd);
+void	*ft_update_line_buffer(char **line, char **s_buffer);
+void	*ft_free_all(char *str1, char *str2, char *str3);
 
 #endif
 
