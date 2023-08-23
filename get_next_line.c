@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -38,15 +39,15 @@ char	*ft_read_file(char **s_buffer, int fd)
 		*s_buffer = ft_strdup("");
 	if (local_buffer == NULL || *s_buffer == NULL)
 		return (ft_free_all(*s_buffer, local_buffer, NULL));
-	temp = *s_buffer;
-	while (bytes_read != 0 || !ft_strchr(*s_buffer, '\n'))
+	
+	while (bytes_read != 0 && ft_strchr(*s_buffer, '\n') == NULL)
 	{
+		temp = *s_buffer;
 		bytes_read = read(fd, local_buffer, BUFFER_SIZE);
 		if (bytes_read == ERROR_CODE)
 			return (ft_free_all(local_buffer, *s_buffer, NULL));
-		if (bytes_read == 0)
-			local_buffer[bytes_read] = '\0';
-		*s_buffer = ft_strjoin(temp, local_buffer);
+		local_buffer[bytes_read] = '\0';
+		*s_buffer = ft_strjoin(*s_buffer, local_buffer);
 		if (*s_buffer == NULL)
 			return (ft_free_all(temp, local_buffer, NULL));
 		ft_free_all(temp, NULL, NULL);
@@ -64,9 +65,9 @@ void	*ft_update_line_buffer(char **line, char **s_buffer)
 	nl_byte = ft_strchr(*line, '\n');
 	if (nl_byte == NULL)
 		return (ft_free_all(*s_buffer, NULL, NULL));
-	nl_index = ft_strlen(nl_byte) - ft_strlen(*line);
+	nl_index = (ft_strlen(*line)- ft_strlen(nl_byte) );
 	temp = *s_buffer;
-	*s_buffer = ft_strdup(nl_byte);
+	*s_buffer = ft_strdup(nl_byte + 1);
 	if (*s_buffer == NULL)
 		return (ft_free_all(*line, *s_buffer, temp));
 	*(*line + nl_index + 1) = '\0';

@@ -9,7 +9,7 @@ int	main(void)
 	char *aux;
 	i = 0;
 	fd = open("text.txt", O_RDONLY);
-	while (i < 25)
+	while (i < 3)
 	{
 		aux = get_next_line(fd);
 		printf("%s", aux);
